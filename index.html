@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamui Add/Edit Product</title>
+
+    <link rel="stylesheet" href="./normalize.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <div id="NavBar">
+        Kamui
+    </div>
+
+    <div id="contbtnchange">
+        <button onclick="change()" id="btnChange">E</button>
+    </div>
+    <div class="container">
+        
+
+
+        <div id="newProduct">
+            <h1>Nuevo Producto</h1>
+
+            <form id="myForm">
+                 <input id="image" name="image" type="file" accept="image/png, image/jpeg" />
+                <div class="form-cont">
+                    <label for="name">Nombre</label>
+                    <input id="name" name="name" type="text" autocomplete="off">
+                </div>
+
+                <div class="form-cont">
+                    <label for="desc">Descripción</label>
+                    <input id="description" name="description" type="text" autocomplete="off">
+                </div>
+
+                <div class="form-cont">
+                    <label for="category">Categoria</label>
+                    <select name="category" id="category" form="myForm">
+                        <option value="" selected disabled hidden>Selecciona una categoria</option>
+                        <option value="socks">Socks</option>
+                        <option value="Snapbacks">Snapbacks</option>
+                    </select>
+                </div>
+
+                <div class="form-cont">
+                    <label for="price">Precio</label autocomplete="off">
+                    <input id="price" name="price" type="text">
+                </div>
+
+                <button class="btn-Form" id="postSubmit" type="submit" >PUBLICAR</i></button>
+            </form>
+
+        </div>
+
+        <div id="editProduct" class="dnone">
+            <h1>Editar Producto</h1>
+            <div class="form-cont">
+                <label for="name">Nombre</label>
+                <input id="name" type="text" autocomplete="off">
+            </div>
+
+            <div class="form-cont">
+                <label for="desc">Descripción</label>
+                <input id="desc" type="text" autocomplete="off">
+            </div>
+
+            <div class="form-cont">
+                <label for="category">Categoria</label>
+                <select name="cars" id="category">
+                    <option value="socks">Socks</option>
+                    <option value="snapback">Snapbacks</option>
+                </select>
+            </div>
+
+            <div class="form-cont">
+                <label for="price">Precio</label autocomplete="off">
+                <input id="price" type="text">
+            </div>
+
+            <div class="btn btnEdit" onclick="editProduct()">Actualizar</div>
+
+        </div>
+
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./index.js"></script>
+</body>
+
+</html>
