@@ -35,7 +35,12 @@ h1 {
     padding: 5px;
     
 }
-
+input#image {
+    padding: 5px;
+    width: 90%;
+    display: flex;
+    margin: 0 auto;
+}
 input,select {
     margin-top: 2px;
     width: 100%;
@@ -59,7 +64,10 @@ input,select {
 }
 
 .btnNew {
-    background: #53dd77;
+    background: #29af20;
+    display: flex;
+    width: 50%;
+    justify-content: center;
 }
 
 .btnEdit {
@@ -86,4 +94,10 @@ input,select {
     width: 12%;
     border: none;
     background: #cfcfcf;
+}
+
+@media (max-width: 479px) and (min-width: 320px) {
+
+    .container {width: 90%;}
+    #btnChange{width: 60%;}
 }

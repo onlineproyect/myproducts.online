@@ -6,56 +6,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kamui Add/Edit Product</title>
-
     <link rel="stylesheet" href="./normalize.css">
     <link rel="stylesheet" href="./style.css">
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
 </head>
-
 <body>
-
     <div id="NavBar">
         Kamui
     </div>
-
     <div id="contbtnchange">
         <button onclick="change()" id="btnChange">E</button>
     </div>
     <div class="container">
-        
-
-
         <div id="newProduct">
             <h1>Nuevo Producto</h1>
+            <input id="image" name="image" type="file" accept="image/png, image/jpeg" />
+            <div class="form-cont">
+                <label for="name">Nombre</label>
+                <input id="name" name="name" type="text" autocomplete="off">
+            </div>
 
-            <form id="myForm">
-                 <input id="image" name="image" type="file" accept="image/png, image/jpeg" />
-                <div class="form-cont">
-                    <label for="name">Nombre</label>
-                    <input id="name" name="name" type="text" autocomplete="off">
-                </div>
+            <div class="form-cont">
+                <label for="desc">Descripción</label>
+                <input id="description" name="description" type="text" autocomplete="off">
+            </div>
 
-                <div class="form-cont">
-                    <label for="desc">Descripción</label>
-                    <input id="description" name="description" type="text" autocomplete="off">
-                </div>
+            <div class="form-cont">
+                <label for="category">Categoria</label>
+                <select name="category" id="category" form="myForm">
+                    <option value="" selected disabled hidden>Selecciona una categoria</option>
+                    <option value="socks">Socks</option>
+                    <option value="Snapbacks">Snapbacks</option>
+                </select>
+            </div>
 
-                <div class="form-cont">
-                    <label for="category">Categoria</label>
-                    <select name="category" id="category" form="myForm">
-                        <option value="" selected disabled hidden>Selecciona una categoria</option>
-                        <option value="socks">Socks</option>
-                        <option value="Snapbacks">Snapbacks</option>
-                    </select>
-                </div>
-
-                <div class="form-cont">
-                    <label for="price">Precio</label autocomplete="off">
-                    <input id="price" name="price" type="text">
-                </div>
-
-                <button class="btn-Form" id="postSubmit" type="submit" >PUBLICAR</i></button>
-            </form>
-
+            <div class="form-cont">
+                <label for="price">Precio</label autocomplete="off">
+                <input id="price" name="price" type="text">
+            </div>
+            <button class="btn btnNew" id="btnPublicar" onclick="pushDAta()">PUBLICAR</button>
         </div>
 
         <div id="editProduct" class="dnone">
@@ -88,8 +78,9 @@
         </div>
 
     </div>
+    <script src="./firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./index.js"></script>
 </body>
-
 </html>

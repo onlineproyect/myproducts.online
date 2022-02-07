@@ -1,38 +1,69 @@
-var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-
-
 // Get elements
 var eNewProduct = document.getElementById("newProduct");
 var eEditProduct = document.getElementById("editProduct");
 var eBtnChange = document.getElementById("btnChange");
+var eBtnPublicar = document.getElementById("btnPublicar");
 
-var eName = document.getElementById("name");
-var eDesc = document.getElementById("description");
-var eCategory = document.getElementById("category");
-var ePrice = document.getElementById("price");
-
-const develpomentAPi = "https://kamuistore.herokuapp.com/kamuiproducts";
-
-function isNumber(n) {
-    let bRes = false;
-    if(!isNaN(parseFloat(n)) && isFinite(n)){
-        bRes = true;
-    }
-    else 
-    {
-        Swal.fire({
-            title: 'oops!',
-            text: 'El campo precio debe de contener solo números.',
-            icon: 'warning',
-            confirmButtonText: 'OK'
+function writeUserData(name_,descripcion_,categoria_,precio_,imgUrl_) {
+    db.collection('kamuiCaps').add({
+        name: name_,
+        descripcion: descripcion_,
+        categoria: categoria_,
+        precio: precio_,
+        imgUrl: imgUrl_
+        }).then(() => {
+            mandarAlerta("Agregado con Exito!",1);
+            eBtnPublicar.disabled = false;
+        })
+        .catch((error) => {
+            Swal.fire('Error al Publicar..');
+            mandarAlerta("Error al Publicar..",0);
+            return;
         });
-    }
-
-    return bRes;
-
 }
 
+
+function pushDAta()
+{
+    eBtnPublicar.disabled = true;
+    
+    if(document.querySelector("#image").files[0] == undefined){
+        mandarAlerta("Agregue una imagen",0);
+        return;
+    }
+
+    let eName = document.getElementById("name").value;
+    let eDesc = document.getElementById("description").value;
+    let eCategory = document.getElementById("category").value;
+    let ePrice = document.getElementById("price").value;
+    let imgName = eName.replace(/\s/g, '');
+    
+    const ref = firebase.storage().ref();
+    const file = document.querySelector("#image").files[0];
+    const name = imgName;
+    const metadata = {contentType: file.type};
+    const task = ref.child(name).put(file, metadata);
+
+    task.then(snapshot => snapshot.ref.getDownloadURL()).then(url => 
+        {
+            if(!url || url == ""){
+                mandarAlerta('Error al cargar la imagen, refresque la pagina..',0);
+                return;
+            }
+
+            writeUserData(eName,eDesc,eCategory,ePrice,url);
+    }).catch(console.error);
+}
+
+function mandarAlerta(desc,type){
+    
+    Swal.fire({
+        title: 'HEY!!',
+        text: desc,
+        icon: type == 1 ? 'success' : 'error',
+        confirmButtonText: 'OK'
+    });
+}
 
 var isEdit = false;
 function change(){
@@ -56,70 +87,3 @@ function change(){
     }
     
 }
-
-const thisForm = document.getElementById('myForm');
-thisForm.addEventListener('submit', async function (e) {
-
-    e.preventDefault();
-
-    if(!isNumber(ePrice.value)){
-        return;
-    }
-    // let fileInput = document.querySelector('#image');
-    // formdata.append("image", fileInput.files[0], fileInput.value);
-
-    let fileInput = document.querySelector('#image');
-
-    // var raw = JSON.stringify({
-    //     "name":  eName.value,
-    //     "description": eDesc.value,
-    //     "price": ePrice.value,
-    //     "category": eCategory.value
-    //   });
-
-    // var requestOptions = {
-    //     method: 'POST',
-    //     headers: myHeaders,
-    //     body: raw,
-    //     redirect: 'follow'
-    // };
-
-    // fetch(develpomentAPi, requestOptions).then((response) => {
-    //     console.log(response);
-    //     if(response.status == 400)
-    //     {
-    //         console.log(error);
-    //         Swal.fire('Error al Publicar..');
-    //         return;
-    //     }
-        
-    //     Swal.fire("Publicacion con Exito!");
-
-    // }).catch(error =>Swal.fire('Error al Publicar..'));
-
-    var formdata = new FormData();
-    formdata.append("name",  eName.value);
-    formdata.append("description", eDesc.value);
-    formdata.append("price",  ePrice.value);
-    formdata.append("category", eCategory.value);
-    formdata.append("image", fileInput.files[0], fileInput.value);
-
-    var requestOptions = {
-    method: 'POST',
-    body: formdata,
-    redirect: 'follow'
-    };
-
-    fetch(develpomentAPi, requestOptions).then((response) => {
-        if(response.status == 400)
-        {
-            console.log(error);
-            Swal.fire('Error al Publicar..');
-            return;
-        }
-        
-        Swal.fire("Agregado con Exito!");
-    })
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
-});
